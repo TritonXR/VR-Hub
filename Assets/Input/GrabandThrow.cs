@@ -1,45 +1,61 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(SteamVR_TrackedObject))]
 public class GrabandThrow : MonoBehaviour {
 
-    FixedJoint grabJoint;
-    bool objectDetect;
-    private GameObject detectedObj;
-    private Transform attachPoint;
+	bool objectDetect;
+	private GameObject detectedObj;
+    private SteamVR_TrackedObject trackedController;
+    private SteamVR_Controller.Device device;
 
-    void Start()
+    private Rigidbody attachPoint;
+    private FixedJoint attachJoint;
+
+    void Awake()
+	{
+        trackedController = GetComponent<SteamVR_TrackedObject>();
+	}
+        
+    void CreateAttachPoint()
     {
-        attachPoint = GameObject.Find("AttachPoint").transform;
+        attachPoint = transform.GetChild(0).Find("tip").GetChild(0).GetComponent<Rigidbody>(); 
     }
 
-    void OnTriggerEnter(Collider collider)
-    {
-        Debug.Log("Object Touched");
-        objectDetect = true;
-        detectedObj = collider.gameObject;
-    }
+	void OnTriggerEnter(Collider collider)
+	{
+		Debug.Log("Object Touched");
+		objectDetect = true;
+		detectedObj = collider.gameObject;
+	}
 
-    void OnTriggerExit(Collider collider)
-    {
-        objectDetect = false;
-        Debug.Log("No Object Detected");
-    }
-
-    void GrabDetectedObject(GameObject obj)
-    {
-        obj.transform.position = attachPoint.position;
-        grabJoint = obj.AddComponent<FixedJoint>();
-        grabJoint.connectedBody = attachPoint;
-
-    }
+	void OnTriggerExit(Collider collider)
+	{
+		objectDetect = false;
+		Debug.Log("No Object Detected");
+	}
 
     void FixedUpdate()
     {
-        if (objectDetect == true && Input.GetButtonDown("Fire1"))
+        device = SteamVR_Controller.Input((int)trackedController.index);
+        GrabThrowDetectedObject(detectedObj);
+    }
+
+    void GrabThrowDetectedObject(GameObject obj)
+    {
+        if (objectDetect == true)
         {
-            Debug.Log("Grab Attempted");
-            GrabDetectedObject(detectedObj);
+            if (attachJoint == null && device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                obj.transform.position = attachPoint.transform.position;
+                attachJoint = obj.AddComponent<FixedJoint>();
+                attachJoint.connectedBody = attachPoint;
+            }
+            else if (attachJoint != null && device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                Destroy(attachJoint);
+                attachJoint = null;
+            }
         }
     }
 }
