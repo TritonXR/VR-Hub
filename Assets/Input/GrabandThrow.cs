@@ -4,6 +4,8 @@ using System.Collections;
 [RequireComponent(typeof(SteamVR_TrackedObject))]
 public class GrabandThrow : MonoBehaviour {
 
+    public float throwVelocity = 10.0f;
+
 	bool objectDetect;
 	private GameObject detectedObj;
     private SteamVR_TrackedObject trackedController;
@@ -47,9 +49,10 @@ public class GrabandThrow : MonoBehaviour {
         {
             if (attachJoint == null && device.GetTouchDown(SteamVR_Controller.ButtonMask.Trigger))
             {
+                CreateAttachPoint();
                 obj.transform.position = attachPoint.transform.position;
                 attachJoint = obj.AddComponent<FixedJoint>();
-                attachJoint.connectedBody = attachPoint;
+                attachJoint.connectedBody = attachPoint;    
             }
             else if (attachJoint != null && device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
             {
