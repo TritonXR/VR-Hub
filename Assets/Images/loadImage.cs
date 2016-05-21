@@ -7,9 +7,10 @@ using System.Collections.Generic;
 public class loadImage : MonoBehaviour {
 
 	// the url or path to the image
-	string url = "file:///Users/kk442021907/Desktop/ABC.png";
+	string url = "file:///Users/kk442021907/Downloads/scene1.jpg";
 	Texture2D img;
 	Sprite theSprite;
+	GameObject plane1;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +28,13 @@ public class loadImage : MonoBehaviour {
      	theSprite = Sprite.Create(img, rec, new Vector2());
 	}
 
+	void Update(){
+		if(Input.GetMouseButtonDown(0)){
+			AutoResize.resize(plane1,0.1f);
+
+		}
+	}
+
 	IEnumerator LoadImg(){
 		yield return 0;
 		WWW imgLink = new WWW (url);
@@ -34,7 +42,7 @@ public class loadImage : MonoBehaviour {
 		img = imgLink.texture;
 
 		// create a plane
-		GameObject plane1 = new GameObject("NewObject");
+		plane1 = new GameObject("NewObject");
 
 
 		convertSprite();     // convert img to sprite and store in theSprite
