@@ -25,6 +25,14 @@ public class AutoResize : MonoBehaviour {
 			(ggg.gameObject.transform.position.x) - (xxx*10), 
 			(ggg.gameObject.transform.position.y) - (xxx*10),
 			0),
-			9999999 * Time.deltaTime);
+			9999999 * Time.deltaTime);      // to respond immediately
 	}
+
+	public static void rotateImage(GameObject ggg){
+
+		ggg.gameObject.transform.Rotate(new Vector3(1,1,1) * Time.deltaTime);
+
+	}
+
+
 }

@@ -32,6 +32,8 @@ public class loadImage : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0)){
 			AutoResize.resize(plane1,0.1f);
 
+		} else if(Input.GetMouseButtonDown(1)){
+			AutoResize.resize(plane1,-0.1f);
 		}
 	}
 
