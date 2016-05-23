@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bdfad0ff03093ad4482c5c443e0fca2f
-timeCreated: 1462950627
+guid: 8b431c9e2cfa96f44bb2acefa8af5970
+timeCreated: 1464046091
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -19,7 +19,7 @@ ModelImporter:
     4300002: Whiteboard
   materials:
     importMaterials: 1
-    materialName: 0
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
