@@ -2,11 +2,15 @@
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SongManager : MonoBehaviour {
 
   //List of clips loaded into memory
   private List<AudioClip> clips;
+    private List<string> songNames;
+
+    public Text songText;
 
   //index of the active clip
   private int activeClip = 0;
@@ -14,11 +18,12 @@ public class SongManager : MonoBehaviour {
   //TODO: whether or not we should load from the default music directory
   public bool LoadFromDefault = true;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+  void Start () {
 
     //initialize list and load clips into list
     clips = new List<AudioClip>();
+        songNames = new List<string>();
     StartCoroutine(LoadAudioFromWWW());
 
   }
@@ -36,6 +41,7 @@ public class SongManager : MonoBehaviour {
 
     //increment index and loop if necessary
     activeClip++;
+
     if (activeClip >= clips.Count) {
 
       activeClip = 0;
@@ -72,6 +78,7 @@ public class SongManager : MonoBehaviour {
       //checks the extension on the file
       if(Path.GetExtension(str) == ".wav") {
 
+                songNames.Add(Path.GetFileNameWithoutExtension(str));
         //updates the path to load a WWW
         string clipString = "file://" + str;
 
@@ -106,8 +113,18 @@ public class SongManager : MonoBehaviour {
       }
     }
 
+        string songString = "";
 
+        for (int i = 0; i < songNames.Count; i++) {
+
+            songString += songNames[i] + "\n";
+
+
+        }
+
+        songText.text = songString;
+
+        UpdateSong();
 
   }
-
 }
